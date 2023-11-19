@@ -163,7 +163,7 @@ function textFieldEnterTriggerSetup() {
 function initiateKeyboardControls() {
   document.addEventListener("keydown", keyDownHandler);
   // document.addEventListener("keyup", keyUpHandler);
-  initClickableKeys();
+  // initClickableKeys();
 }
 
 function keyDownHandler(event) {
@@ -207,8 +207,11 @@ function keyDownHandler(event) {
     case "KeyJ":
       socket.emit("fpjKeystroke", event.code);
       break;
-    case "KeyH":
+    case "KeyK":
       socket.emit("fpjKeystroke", event.code);
+      break;
+    case "Space":
+      ptsToggle();
       break;
   }
 }
