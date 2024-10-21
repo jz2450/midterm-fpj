@@ -1,9 +1,5 @@
 import { Ambient } from "./jogg.js";
-import dotenv from 'dotenv';
-dotenv.config({ path: './secrets.env' });
 
-const apiKey = process.env.API_KEY;
-var myGhostyPeer;
 let myGhostyPeers = [];
 var mystream;
 var socket;
@@ -127,6 +123,17 @@ function setupSocketCallbacks() {
 // HELPER FUNCTIONS
 
 
+// Fetch environment variables from the server
+async function fetchEnvVariables() {
+  try {
+    const response = await fetch('/api/env');
+    const env = await response.json();
+    return env;
+  } catch (error) {
+    console.error('Error fetching environment variables:', error);
+  }
+}
+
 function speakText(data) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -139,6 +146,8 @@ function speakText(data) {
 
 async function fetchTurnServers() {
   try {
+    const env = await fetchEnvVariables();
+    const apiKey = env.apiKey;
     const response = await fetch(`https://fpj.metered.live/api/v1/turn/credentials?apiKey=${apiKey}`);
     const iceServers = await response.json();
     turnServers = iceServers;

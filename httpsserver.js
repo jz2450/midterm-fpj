@@ -1,5 +1,7 @@
 // We need the file system here
 var fs = require("fs");
+require('dotenv').config({ path: './secrets.env' });
+const apiKey = process.env.API_KEY;
 
 // for live web
 
@@ -13,6 +15,12 @@ app.use(express.static("public"));
 // If the user just goes to the "route" / then run this function
 app.get("/", function (req, res) {
   res.send("please use the url with the project you want to find :)");
+});
+// Endpoint to expose environment variables
+app.get('/api/env', (req, res) => {
+  res.json({
+    apiKey: process.env.API_KEY,
+  });
 });
 
 // Here is the actual HTTP server
