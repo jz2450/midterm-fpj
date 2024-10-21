@@ -11,54 +11,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="./fpjjs/simplepeer.min.js"></script>
+    <script type="module" src="./fpjjs/jogg.js"></script>
     <title>FPJ, but Josh's view</title>
 </head>
 
 <body>
-    <div id="actionIndicator"></div>
     <!-- this is the main frame -->
-    <div id="main">
-        <svg class="onlyIfConnected hidden" id="ghostymessagebubble" width="520" height="215" viewBox="0 0 520 215"
-            fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="darkghostymessagebubble">
-                <mask id="path-1-inside-1_1_181" fill="white">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M15 0C6.71573 0 0 6.71572 0 15V200C0 208.284 6.71571 215 15 215H464.287H477H519.713L492 167V15C492 6.71573 485.284 0 477 0H15Z" />
-                </mask>
-                <path
-                    d="M519.713 215V220H528.373L524.043 212.5L519.713 215ZM492 167H487V168.34L487.67 169.5L492 167ZM5 15C5 9.47715 9.47715 5 15 5V-5C3.95431 -5 -5 3.9543 -5 15H5ZM5 200V15H-5V200H5ZM15 210C9.47714 210 5 205.523 5 200H-5C-5 211.046 3.95429 220 15 220V210ZM464.287 210H15V220H464.287V210ZM477 210H464.287V220H477V210ZM519.713 210H477V220H519.713V210ZM487.67 169.5L515.383 217.5L524.043 212.5L496.33 164.5L487.67 169.5ZM487 15V167H497V15H487ZM477 5C482.523 5 487 9.47715 487 15H497C497 3.95431 488.046 -5 477 -5V5ZM15 5H477V-5H15V5Z"
-                    fill="#D9D9D9" mask="url(#path-1-inside-1_1_181)" />
-            </g>
-        </svg>
-        <div class="onlyIfConnected hidden" id="displayMessageText">
-            This is the display message
+    <div id="main" class="onlyIfConnected hidden">
+        <div style="flex: 2;">
+            <div class="bigText">
+                <span>Josh is being possessed by: </span>&nbsp;
+            </div>
+            <div class="" id="lil-ghosty-boy">
+                <span id="ghostName">no one :&#40</span>
+                <svg width="96" height="114" viewBox="0 0 96 114" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <path id="Union" fill-rule="evenodd" clip-rule="evenodd"
+                            d="M94 37C94 17.67 78.33 2 59 2C39.67 2 24 17.67 24 37V107C24 109.761 26.2386 112 29 112C31.7614 112 34 109.761 34 107C34 104.239 36.2386 102 39 102C41.7614 102 44 104.239 44 107C44 109.761 46.2386 112 49 112C51.7614 112 54 109.761 54 107C54 104.239 56.2386 102 59 102C61.7614 102 64 104.239 64 107C64 109.761 66.2386 112 69 112C71.7614 112 74 109.761 74 107C74 104.239 76.2386 102 79 102C81.7614 102 84 104.239 84 107C84 109.761 86.2386 112 89 112C91.7614 112 94 109.761 94 107V37Z"
+                            fill="#0226A4" />
+                        <path id="Union_2"
+                            d="M59 3.5C77.5015 3.5 92.5 18.4985 92.5 37H95.5C95.5 16.8416 79.1584 0.5 59 0.5V3.5ZM25.5 37C25.5 18.4985 40.4985 3.5 59 3.5V0.5C38.8416 0.5 22.5 16.8416 22.5 37H25.5ZM22.5 37V107H25.5V37H22.5ZM22.5 107C22.5 110.59 25.4101 113.5 29 113.5V110.5C27.067 110.5 25.5 108.933 25.5 107H22.5ZM29 113.5C32.5899 113.5 35.5 110.59 35.5 107H32.5C32.5 108.933 30.933 110.5 29 110.5V113.5ZM35.5 107C35.5 105.067 37.067 103.5 39 103.5V100.5C35.4101 100.5 32.5 103.41 32.5 107H35.5ZM39 103.5C40.933 103.5 42.5 105.067 42.5 107H45.5C45.5 103.41 42.5899 100.5 39 100.5V103.5ZM42.5 107C42.5 110.59 45.4101 113.5 49 113.5V110.5C47.067 110.5 45.5 108.933 45.5 107H42.5ZM49 113.5C52.5899 113.5 55.5 110.59 55.5 107H52.5C52.5 108.933 50.933 110.5 49 110.5V113.5ZM55.5 107C55.5 105.067 57.067 103.5 59 103.5V100.5C55.4101 100.5 52.5 103.41 52.5 107H55.5ZM59 103.5C60.933 103.5 62.5 105.067 62.5 107H65.5C65.5 103.41 62.5899 100.5 59 100.5V103.5ZM62.5 107C62.5 110.59 65.4101 113.5 69 113.5V110.5C67.067 110.5 65.5 108.933 65.5 107H62.5ZM69 113.5C72.5899 113.5 75.5 110.59 75.5 107H72.5C72.5 108.933 70.933 110.5 69 110.5V113.5ZM75.5 107C75.5 105.067 77.067 103.5 79 103.5V100.5C75.4101 100.5 72.5 103.41 72.5 107H75.5ZM79 103.5C80.933 103.5 82.5 105.067 82.5 107H85.5C85.5 103.41 82.5899 100.5 79 100.5V103.5ZM82.5 107C82.5 110.59 85.4101 113.5 89 113.5V110.5C87.067 110.5 85.5 108.933 85.5 107H82.5ZM89 113.5C92.5898 113.5 95.5 110.59 95.5 107H92.5C92.5 108.933 90.933 110.5 89 110.5V113.5ZM95.5 107V37H92.5V107H95.5Z"
+                            fill="#D9D9D9" />
+                        <circle id="Ellipse 9" cx="9" cy="44" r="7" stroke="#D9D9D9" stroke-width="3" />
+                        <circle id="Ellipse 10" cx="46" cy="37" r="7" stroke="#D9D9D9" stroke-width="3" />
+                        <path id="Vector 1" d="M34 65.5C50.5 72.5 70 65.5 73 45" stroke="#D9D9D9" stroke-width="3" />
+                    </g>
+                </svg>
+            </div>
         </div>
-        <svg class="onlyIfConnected hidden" id="lil-ghosty-boy" width="96" height="114" viewBox="0 0 96 114" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <g>
-                <path id="Union" fill-rule="evenodd" clip-rule="evenodd"
-                    d="M94 37C94 17.67 78.33 2 59 2C39.67 2 24 17.67 24 37V107C24 109.761 26.2386 112 29 112C31.7614 112 34 109.761 34 107C34 104.239 36.2386 102 39 102C41.7614 102 44 104.239 44 107C44 109.761 46.2386 112 49 112C51.7614 112 54 109.761 54 107C54 104.239 56.2386 102 59 102C61.7614 102 64 104.239 64 107C64 109.761 66.2386 112 69 112C71.7614 112 74 109.761 74 107C74 104.239 76.2386 102 79 102C81.7614 102 84 104.239 84 107C84 109.761 86.2386 112 89 112C91.7614 112 94 109.761 94 107V37Z"
-                    fill="#0226A4" />
-                <path id="Union_2"
-                    d="M59 3.5C77.5015 3.5 92.5 18.4985 92.5 37H95.5C95.5 16.8416 79.1584 0.5 59 0.5V3.5ZM25.5 37C25.5 18.4985 40.4985 3.5 59 3.5V0.5C38.8416 0.5 22.5 16.8416 22.5 37H25.5ZM22.5 37V107H25.5V37H22.5ZM22.5 107C22.5 110.59 25.4101 113.5 29 113.5V110.5C27.067 110.5 25.5 108.933 25.5 107H22.5ZM29 113.5C32.5899 113.5 35.5 110.59 35.5 107H32.5C32.5 108.933 30.933 110.5 29 110.5V113.5ZM35.5 107C35.5 105.067 37.067 103.5 39 103.5V100.5C35.4101 100.5 32.5 103.41 32.5 107H35.5ZM39 103.5C40.933 103.5 42.5 105.067 42.5 107H45.5C45.5 103.41 42.5899 100.5 39 100.5V103.5ZM42.5 107C42.5 110.59 45.4101 113.5 49 113.5V110.5C47.067 110.5 45.5 108.933 45.5 107H42.5ZM49 113.5C52.5899 113.5 55.5 110.59 55.5 107H52.5C52.5 108.933 50.933 110.5 49 110.5V113.5ZM55.5 107C55.5 105.067 57.067 103.5 59 103.5V100.5C55.4101 100.5 52.5 103.41 52.5 107H55.5ZM59 103.5C60.933 103.5 62.5 105.067 62.5 107H65.5C65.5 103.41 62.5899 100.5 59 100.5V103.5ZM62.5 107C62.5 110.59 65.4101 113.5 69 113.5V110.5C67.067 110.5 65.5 108.933 65.5 107H62.5ZM69 113.5C72.5899 113.5 75.5 110.59 75.5 107H72.5C72.5 108.933 70.933 110.5 69 110.5V113.5ZM75.5 107C75.5 105.067 77.067 103.5 79 103.5V100.5C75.4101 100.5 72.5 103.41 72.5 107H75.5ZM79 103.5C80.933 103.5 82.5 105.067 82.5 107H85.5C85.5 103.41 82.5899 100.5 79 100.5V103.5ZM82.5 107C82.5 110.59 85.4101 113.5 89 113.5V110.5C87.067 110.5 85.5 108.933 85.5 107H82.5ZM89 113.5C92.5898 113.5 95.5 110.59 95.5 107H92.5C92.5 108.933 90.933 110.5 89 110.5V113.5ZM95.5 107V37H92.5V107H95.5Z"
-                    fill="#D9D9D9" />
-                <circle id="Ellipse 9" cx="9" cy="44" r="7" stroke="#D9D9D9" stroke-width="3" />
-                <circle id="Ellipse 10" cx="46" cy="37" r="7" stroke="#D9D9D9" stroke-width="3" />
-                <path id="Vector 1" d="M34 65.5C50.5 72.5 70 65.5 73 45" stroke="#D9D9D9" stroke-width="3" />
-            </g>
-        </svg>
-        <div style="position: relative; bottom: 0; display: block;">
-            <br>
-            <br>
-            Josh is currently being haunted by:
-        </div>
-        <div id="ghostName" style="font-size: 40px; position: fixed; right: 0; bottom: 0;">
-            no one :&#40
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img id="qr-code" src="./assets/qr-code.png" alt="a qr code linking to app.joshjoshjosh.net/fpj">
+            <h3 style="text-align: center;">👇 possess me! 👇<br>app.joshjoshjosh.net/fpj</h3>
         </div>
     </div>
+    <!-- this is the idle screen  -->
     <div id="idleScreen">
-        <svg id="ghosty-gang" width="865" height="448" viewBox="0 0 865 448" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+        <svg id="ghosty-gang" viewBox="0 0 865 448" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g>
                 <g id="lil ghosty boy">
                     <path id="Union" fill-rule="evenodd" clip-rule="evenodd"
@@ -138,7 +126,8 @@
                 </g>
             </g>
         </svg>
-        <svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="idleElement" width="240" height="240" viewBox="0 0 240 240" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <g id="spotlight" filter="url(#filter0_f_2_729)">
                 <circle cx="120" cy="120" r="110" fill="#D9D9D9" />
             </g>
@@ -151,7 +140,8 @@
                 </filter>
             </defs>
         </svg>
-        <svg width="114" height="113" viewBox="0 0 114 113" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="idleElement" width="114" height="113" viewBox="0 0 114 113" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <g id="lil hosty boy">
                 <path id="Vector 3" d="M99 11.5C91.4 15.1 82.8333 25.6667 79.5 30.5" stroke="#1E1E1E"
                     stroke-width="3" />
@@ -165,9 +155,10 @@
             </g>
         </svg>
     </div>
-
+    <!-- this is the toggle button -->
+    <button id="clockInButton">Clock In</button>
     <!-- <video id="testVideo" playsinline muted autoplay></video> -->
-    <script src="./fpjjs/joshscript.js"></script>
+    <script type="module" src="./fpjjs/joshscript.js"></script>
 </body>
 
 </html>
