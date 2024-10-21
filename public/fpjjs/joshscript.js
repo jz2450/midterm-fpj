@@ -1,5 +1,8 @@
 import { Ambient } from "./jogg.js";
+import dotenv from 'dotenv';
+dotenv.config({ path: './secrets.env' });
 
+const apiKey = process.env.API_KEY;
 var myGhostyPeer;
 let myGhostyPeers = [];
 var mystream;
@@ -136,7 +139,7 @@ function speakText(data) {
 
 async function fetchTurnServers() {
   try {
-    const response = await fetch("https://fpj.metered.live/api/v1/turn/credentials?apiKey=98bac8d8be959ecddea0203fe867c1da1b21");
+    const response = await fetch(`https://fpj.metered.live/api/v1/turn/credentials?apiKey=${apiKey}`);
     const iceServers = await response.json();
     turnServers = iceServers;
     console.log(turnServers);

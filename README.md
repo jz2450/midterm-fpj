@@ -28,7 +28,9 @@ Full documentation: https://joshjoshjosh.notion.site/FPJ-Reloaded-The-Final-Proj
 - arcade kiosk mode
 
 ## todo
-- android text to speech??
+- figure out the secrets thing
+- deploy on digital ocean
+- android text to speech?? check with new ssl, or request permission again
 - client performance
 - video connection unrealiable on boot
 - update ssl on droplet
