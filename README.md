@@ -30,7 +30,7 @@ Full documentation: https://joshjoshjosh.notion.site/FPJ-Reloaded-The-Final-Proj
 ## todo
 - android text to speech?? check with new ssl, or request permission again
 - client performance
-- video connection unreliable on boot
+- video connection unreliable on first boot?
 
 ### nice to haves
 - add ml5 object detection to controller view
