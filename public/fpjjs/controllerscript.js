@@ -97,6 +97,23 @@ function setupSocketCallbacks() {
     }
   });
 
+  socket.on("fpjNoActiveGhostyCooldown", function () {
+    hideGhostyUI();
+    hideGhostyConnectOptions();
+    console.log("no active ghosty, waiting 5 seconds before haunt");
+    joshIsBusy = false;
+    isActiveGhosty = false;
+    statusText.innerHTML = "Waiting...";
+    // this is for when someone else disconnects
+    setTimeout(() => {
+      if (connectedToVideoStream && !joshIsBusy) {
+        showGhostyConnectOptions();
+        statusText.innerHTML = "Josh is ONLINE and being a generally cool dude";
+      }
+    }, 3000);
+
+  });
+
   socket.on("fpjStartActiveGhosty", function (id, name) {
     if (socket.id == id) {
       isActiveGhosty = true;

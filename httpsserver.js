@@ -205,7 +205,8 @@ io.sockets.on(
     socket.on("fpjEndActiveGhosty", function () {
       console.log("active ghosty is unhaunting");
       fpjGhosty = null;
-      io.emit("fpjNoActiveGhosty");
+      socket.broadcast.emit("fpjNoActiveGhosty");
+      socket.emit("fpjNoActiveGhostyCooldown");
     });
 
     // simple peer signalling

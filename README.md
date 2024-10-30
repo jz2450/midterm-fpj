@@ -26,6 +26,7 @@ Full documentation: https://joshjoshjosh.notion.site/FPJ-Reloaded-The-Final-Proj
 - countdown timers
 - figure out speak function, no audio streams
 - arcade kiosk mode
+- added cooldown after user disconnects
 
 ## todo
 - android text to speech?? check with new ssl, or request permission again
@@ -34,3 +35,4 @@ Full documentation: https://joshjoshjosh.notion.site/FPJ-Reloaded-The-Final-Proj
 
 ### nice to haves
 - add ml5 object detection to controller view
+- gps map

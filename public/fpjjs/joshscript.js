@@ -159,9 +159,11 @@ async function fetchTurnServers() {
 
 async function toggleClockIn() {
   if (!isClockedIn) {
-    await initCapture();
-    socket.emit("fpjHostyConnect");
     console.log("clock in button toggled");
+    initCapture()
+    .then(() => {
+      socket.emit("fpjHostyConnect");
+    })
   } else {
     // if clocked in
     isClockedIn = false;
@@ -184,76 +186,134 @@ async function toggleClockIn() {
 
 async function initCapture() {
   console.log("initCapture");
-  // camera selecting
-  navigator.mediaDevices
-    .getUserMedia({
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
       video: true,
-    })
-    .then(function () {
-      if (!navigator.mediaDevices?.enumerateDevices) {
-        console.log("enumerateDevices() not supported.");
-      } else {
-        navigator.mediaDevices
-          .enumerateDevices()
-          .then((devices) => {
-            // devices.forEach(device => {
-            //   console.log(device.label);
-            // });
-            // Choosing the front-facing camera
-            var ioscamera = devices.find(
-              (device) => device.label.toLowerCase().includes("front")
-            );
-            var andcamera = devices.find(
-              (device) => device.label.toLowerCase().includes("facing front")
-            );
-            if (ioscamera) {
-              // choosing the built in mic for iPhones
-              var iosmicrophone = devices.find(
-                (device) => device.label.toLowerCase().includes("microphone")
-              );
-              var audioConstraints = {
-                deviceId: iosmicrophone.deviceId,
-              }
-              var constraints = {
-                deviceId: ioscamera.deviceId,
-              };
-              return navigator.mediaDevices.getUserMedia({
-                audio: true,
-                video: constraints,
-              });
-            } else if (andcamera) {
-              var constraints = {
-                deviceId: andcamera.deviceId,
-              };
-              return navigator.mediaDevices.getUserMedia({
-                audio: true,
-                video: constraints,
-              });
-            } else {
-              return navigator.mediaDevices.getUserMedia({
-                audio: true,
-                video: {
-                  facingMode: "environment",
-                },
-              });
-            }
-          })
-          .then(function (stream) {
-            mystream = stream;
-            // finishSetupSocket();
-          })
-          .catch(function (err) {
-            /* Handle the error */
-            alert(err);
-          });
-      }
-    })
-    .catch(function (err) {
-      /* Handle the error */
-      alert(err);
     });
+
+    if (!navigator.mediaDevices?.enumerateDevices) {
+      console.log("enumerateDevices() not supported.");
+      return;
+    }
+
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    // devices.forEach(device => {
+    //   console.log(device.label);
+    // });
+    // Choosing the front-facing camera
+    const ioscamera = devices.find(
+      (device) => device.label.toLowerCase().includes("front")
+    );
+    const andcamera = devices.find(
+      (device) => device.label.toLowerCase().includes("facing front")
+    );
+
+    let constraints;
+    if (ioscamera) {
+      // choosing the built in mic for iPhones
+      const iosmicrophone = devices.find(
+        (device) => device.label.toLowerCase().includes("microphone")
+      );
+      constraints = {
+        audio: { deviceId: iosmicrophone.deviceId },
+        video: { deviceId: ioscamera.deviceId },
+      };
+    } else if (andcamera) {
+      constraints = {
+        audio: true,
+        video: { deviceId: andcamera.deviceId },
+      };
+    } else {
+      constraints = {
+        audio: true,
+        video: { facingMode: "environment" },
+      };
+    }
+
+    mystream = await navigator.mediaDevices.getUserMedia(constraints);
+    // finishSetupSocket();
+  } catch (err) {
+    /* Handle the error */
+    alert(err);
+  }
 }
+
+// async function initCapture() {
+//   console.log("initCapture");
+//   // camera selecting
+//   navigator.mediaDevices
+//     .getUserMedia({
+//       audio: true,
+//       video: true,
+//     })
+//     .then(function () {
+//       if (!navigator.mediaDevices?.enumerateDevices) {
+//         console.log("enumerateDevices() not supported.");
+//       } else {
+//         navigator.mediaDevices
+//           .enumerateDevices()
+//           .then((devices) => {
+//             // devices.forEach(device => {
+//             //   console.log(device.label);
+//             // });
+//             // Choosing the front-facing camera
+//             var ioscamera = devices.find(
+//               (device) => device.label.toLowerCase().includes("front")
+//             );
+//             var andcamera = devices.find(
+//               (device) => device.label.toLowerCase().includes("facing front")
+//             );
+//             if (ioscamera) {
+//               // choosing the built in mic for iPhones
+//               var iosmicrophone = devices.find(
+//                 (device) => device.label.toLowerCase().includes("microphone")
+//               );
+//               var audioConstraints = {
+//                 deviceId: iosmicrophone.deviceId,
+//               }
+//               var constraints = {
+//                 deviceId: ioscamera.deviceId,
+//               };
+//               return navigator.mediaDevices.getUserMedia({
+//                 audio: true,
+//                 video: constraints,
+//               });
+//             } else if (andcamera) {
+//               var constraints = {
+//                 deviceId: andcamera.deviceId,
+//               };
+//               return navigator.mediaDevices.getUserMedia({
+//                 audio: true,
+//                 video: constraints,
+//               });
+//             } else {
+//               return navigator.mediaDevices.getUserMedia({
+//                 audio: true,
+//                 video: {
+//                   facingMode: "environment",
+//                 },
+//               });
+//             }
+//           })
+//           .then(function (stream) {
+//             mystream = stream;
+//             // finishSetupSocket();
+//           })
+//           .catch(function (err) {
+//             /* Handle the error */
+//             alert(err);
+//           })
+//           .finally(() => {
+//             return;
+//           })
+//       }
+//     })
+//     .catch(function (err) {
+//       /* Handle the error */
+//       alert(err);
+//     });
+// }
 
 // CLASSES
 
